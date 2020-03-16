@@ -16,7 +16,7 @@ class MultiplicationServiceTests() {
         val factorB = 20
         val mockBookService = Mockito.mock(MultiplicationService::class.java)
 
-        Mockito.`when`(mockBookService.createRandomMultiplication()).thenReturn(User(factorA, factorB))
+        Mockito.`when`(mockBookService.createRandomMultiplication()).thenReturn(Multiplication(factorA, factorB))
         val multiplication : Multiplication = mockBookService.createRandomMultiplication()
 
         assert(multiplication.factorA == factorA)
