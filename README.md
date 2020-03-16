@@ -6,3 +6,5 @@
 
 ### O objetivo deste repo
 O livro Learn Microservices with Spring Boot é de fato um ótimo livro para quem pretente aprender sobre microserviços usando Spring Boot. Eu pretendo unificar aqui algumas anotações sobre este livro e para melhorar minha evolução, irei utilizar a linguagem Kotlin ao invés de puramente Java, sendo assim contrário aos exemplos do livro.
+
+Em alguns passos o meu código tende a se diferenciar do livro devido a diferença entre o Kotlin e o saudoso Java. A questão aqui é aprender os princípios de uma arquitetura e junto praticar meus conhecimentos com Kotlin. 
