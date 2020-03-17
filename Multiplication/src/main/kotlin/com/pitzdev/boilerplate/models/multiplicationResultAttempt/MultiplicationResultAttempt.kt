@@ -1,4 +1,4 @@
-package com.pitzdev.boilerplate.models.multiplicationUser
+package com.pitzdev.boilerplate.models.multiplicationResultAttempt
 
 import javax.persistence.*
 import com.pitzdev.boilerplate.models.base.BaseEntity
@@ -6,7 +6,7 @@ import com.pitzdev.boilerplate.models.multiplication.Multiplication
 import com.pitzdev.boilerplate.models.user.User
 
 @Entity
-data class MultiplicationUser(
+data class MultiplicationResultAttempt (
         @ManyToOne
         val user: User,
 

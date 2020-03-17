@@ -11,6 +11,6 @@ class MultiplicationController(private val multiplicationService: Multiplication
     @GetMapping("/test")
     fun list() {
         val test : Multiplication = multiplicationService.createRandomMultiplication()
-        assert(test.factorA > 0)
+        println(test.result)
     }
 }
