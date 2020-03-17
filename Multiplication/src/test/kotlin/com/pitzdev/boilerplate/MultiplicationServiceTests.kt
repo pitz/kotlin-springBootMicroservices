@@ -33,8 +33,7 @@ class MultiplicationServiceTests() {
     @Test
     fun whenInvalidAttempt_returnFalse() {
         val multiplication : Multiplication = Multiplication(5, 5)
-        val user : User = User("Pitz")
-        val attempt  : MultiplicationResultAttempt = MultiplicationResultAttempt(user, multiplication, 10)
+        val attempt  : MultiplicationResultAttempt = MultiplicationResultAttempt(User("Pitz"), multiplication, 10)
 
         assert(!multiplicationService.checkAttempt(attempt))
     }
@@ -42,12 +41,9 @@ class MultiplicationServiceTests() {
     @Test
     fun whenValidAttempt_returnTrue() {
         val multiplication : Multiplication = Multiplication(5, 5)
-        assert(multiplication.result == 25)
+        val attempt  : MultiplicationResultAttempt = MultiplicationResultAttempt(User("Pitz"), multiplication, 25)
 
-        val user : User = User("Pitz")
-        val attempt  : MultiplicationResultAttempt = MultiplicationResultAttempt(user, multiplication, 25)
         assert(attempt.multiplication.result == 25)
-
-        assert(multiplicationService.checkAttempt(attempt) == true)
+        assert(attempt.resultAttempt == attempt.multiplication.result)
     }
 }
