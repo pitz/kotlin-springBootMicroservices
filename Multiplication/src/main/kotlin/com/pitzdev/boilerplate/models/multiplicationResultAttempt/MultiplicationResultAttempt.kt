@@ -13,5 +13,7 @@ data class MultiplicationResultAttempt (
         @ManyToOne
         val multiplication: Multiplication,
 
-        val resultAttempt: Int
+        val resultAttempt: Int,
+
+        val correct: Boolean = false
 ) : BaseEntity()
