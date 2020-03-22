@@ -1,33 +1,44 @@
 package com.pitzdev.boilerplate.services.multiplication
 
+import com.pitzdev.boilerplate.dto.multiplicationResultAttempt.SaveAttemptDTO
 import com.pitzdev.boilerplate.models.multiplication.Multiplication
 import com.pitzdev.boilerplate.models.multiplicationResultAttempt.MultiplicationResultAttempt
 import com.pitzdev.boilerplate.models.user.User
+import com.pitzdev.boilerplate.repositories.multiplication.MultiplicationRepository
 import com.pitzdev.boilerplate.repositories.multiplicationResultAttempt.MultiplicationResultAttemptRepository
-import com.pitzdev.boilerplate.repositories.user.UserRepository
+import com.pitzdev.boilerplate.services.user.UserService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.lang.Exception
 
 @Transactional
 @Service
-class MultiplicationService(val userRepository: UserRepository,
+class MultiplicationService(var userService: UserService,
+                            val multiplicationRepository: MultiplicationRepository,
                             val multiplicationResultAttemptRepository: MultiplicationResultAttemptRepository) {
 
-    public fun createRandomMultiplication() : Multiplication {
-        return Multiplication(getRandomNumber(), getRandomNumber())
+    public fun createMultiplication() : Multiplication {
+        val multiplication = Multiplication(getRandomNumber(), getRandomNumber())
+        return multiplicationRepository.save(multiplication)
     }
 
     public fun getRandomNumber(): Int {
         return (11..99).shuffled().first()
     }
 
-    public fun checkAttempt(attempt: MultiplicationResultAttempt) : Boolean {
-        val user: User = userRepository.findByAlias(attempt.user.alias) ?: attempt.user
-        val isCorrect = attempt.resultAttempt == attempt.multiplication.result
-        val checkedAttempt = MultiplicationResultAttempt(user, attempt.multiplication, attempt.resultAttempt, isCorrect)
-        multiplicationResultAttemptRepository.save(checkedAttempt)
+    public fun checkAttempt(attemptDto: SaveAttemptDTO) : MultiplicationResultAttempt {
+        val user: User = userService.saveUserIfNecessary(attemptDto.alias)
+        val multiplication = getMultipliacation(attemptDto.multiplicationId)
 
-       return isCorrect
+        val isCorrect = attemptDto.result == multiplication.result
+        val checkedAttempt = MultiplicationResultAttempt(user, multiplication, attemptDto.result, isCorrect)
+        return multiplicationResultAttemptRepository.save(checkedAttempt)
+    }
+
+    private fun getMultipliacation(multiplicationId: Long) : Multiplication {
+        val multiplication = multiplicationRepository.findById(multiplicationId)
+        if (multiplication.isEmpty) throw Exception("Multiplication not found.")
+        return multiplication.get()
     }
 
     public fun getLastUserAttemptList(userAlias: String) : List<MultiplicationResultAttempt>? {

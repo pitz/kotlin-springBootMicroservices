@@ -3,7 +3,7 @@ package com.pitzdev.boilerplate
 import com.pitzdev.boilerplate.models.multiplication.Multiplication
 import com.pitzdev.boilerplate.models.multiplicationResultAttempt.MultiplicationResultAttempt
 import com.pitzdev.boilerplate.models.user.User
-import com.pitzdev.boilerplate.services.multiplication.MultiplicationService
+import com.pitzdev.boilerplate.services.multiplication.UserService
 
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
@@ -14,13 +14,13 @@ import org.springframework.boot.test.context.SpringBootTest
 class MultiplicationServiceTests() {
 
     @Mock
-    lateinit var multiplicationService : MultiplicationService
+    lateinit var multiplicationService : UserService
 
 	@Test
 	fun whenValidRandomNumber_returnValue() {
         val factorA = 15
         val factorB = 20
-        val mockMultiplicationService = Mockito.mock(MultiplicationService::class.java)
+        val mockMultiplicationService = Mockito.mock(UserService::class.java)
 
         Mockito.`when`(mockMultiplicationService.createRandomMultiplication()).thenReturn(Multiplication(factorA, factorB))
         val multiplication : Multiplication = mockMultiplicationService.createRandomMultiplication()
