@@ -14,6 +14,6 @@ class MultiplicationEventService() {
         val eventInfoJson = Gson().toJson(eventInfo)
 
         val eventPublisher = EventPublisher()
-        eventPublisher.publish("multiplication.solved", eventInfoJson.toByteArray())
+        eventPublisher.publish("multiplication.solved", eventInfoJson)
     }
 }

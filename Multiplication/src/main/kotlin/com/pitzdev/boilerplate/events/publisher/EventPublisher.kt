@@ -8,7 +8,9 @@ class EventPublisher() {
 
     private val EVENT_HOST = "localhost"
 
-    public fun publish(queueName: String, info: ByteArray) {
+    public fun publish(queueName: String, info: String) {
+        println("EventPublisher.publish() -> Publicando em $queueName o pacote $info.")
+
         val factory = ConnectionFactory()
         factory.host = EVENT_HOST
 
@@ -16,12 +18,11 @@ class EventPublisher() {
         val channel : Channel = connection.createChannel()
 
         channel.queueDeclare(queueName, false, false, false, null)
-        channel.basicPublish("", queueName, null, info)
-
-        // holderId.toString().toByteArray()
-        println("EventPublisher.publish()")
+        channel.basicPublish("", queueName, null, info.toByteArray())
 
         channel.close()
         connection.close()
+
+        println("EventPublisher.publish() -> Publicado.")
     }
 }
