@@ -1,9 +1,8 @@
 package com.pitzdev.boilerplate.controllers.multiplication
 
-import com.pitzdev.boilerplate.dto.multiplication.SaveMultiplicationDTO
-import com.pitzdev.boilerplate.dto.multiplicationResultAttempt.SaveAttemptDTO
-import com.pitzdev.boilerplate.dto.multiplicationResultAttempt.SaveAttemptResponseDTO
-import com.pitzdev.boilerplate.models.multiplication.Multiplication
+import com.pitzdev.boilerplate.dtos.multiplication.SaveMultiplicationDTO
+import com.pitzdev.boilerplate.dtos.multiplicationResultAttempt.SaveAttemptDTO
+import com.pitzdev.boilerplate.dtos.multiplicationResultAttempt.SaveAttemptResponseDTO
 import com.pitzdev.boilerplate.models.multiplicationResultAttempt.MultiplicationResultAttempt
 import com.pitzdev.boilerplate.services.multiplication.MultiplicationService
 import org.springframework.web.bind.annotation.*

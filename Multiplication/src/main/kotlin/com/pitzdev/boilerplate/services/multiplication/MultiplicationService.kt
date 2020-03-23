@@ -1,6 +1,6 @@
 package com.pitzdev.boilerplate.services.multiplication
 
-import com.pitzdev.boilerplate.dto.multiplicationResultAttempt.SaveAttemptDTO
+import com.pitzdev.boilerplate.dtos.multiplicationResultAttempt.SaveAttemptDTO
 import com.pitzdev.boilerplate.models.multiplication.Multiplication
 import com.pitzdev.boilerplate.models.multiplicationResultAttempt.MultiplicationResultAttempt
 import com.pitzdev.boilerplate.models.user.User
@@ -13,7 +13,8 @@ import java.lang.Exception
 
 @Transactional
 @Service
-class MultiplicationService(var userService: UserService,
+class MultiplicationService(val multiplicationEventService: MultiplicationEventService,
+                            val userService: UserService,
                             val multiplicationRepository: MultiplicationRepository,
                             val multiplicationResultAttemptRepository: MultiplicationResultAttemptRepository) {
 
@@ -31,8 +32,11 @@ class MultiplicationService(var userService: UserService,
         val multiplication = getMultipliacation(attemptDto.multiplicationId)
 
         val isCorrect = attemptDto.result == multiplication.result
-        val checkedAttempt = MultiplicationResultAttempt(user, multiplication, attemptDto.result, isCorrect)
-        return multiplicationResultAttemptRepository.save(checkedAttempt)
+        var checkedAttempt = MultiplicationResultAttempt(user, multiplication, attemptDto.result, isCorrect)
+        checkedAttempt = multiplicationResultAttemptRepository.save(checkedAttempt)
+        multiplicationEventService.dispatchMultiplicationSolved(checkedAttempt)
+
+        return checkedAttempt
     }
 
     private fun getMultipliacation(multiplicationId: Long) : Multiplication {
