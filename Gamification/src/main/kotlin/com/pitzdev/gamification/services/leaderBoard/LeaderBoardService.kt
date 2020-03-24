@@ -1,8 +1,8 @@
-package com.pitzdev.gamification.interfaces.game
+package com.pitzdev.gamification.services.leaderBoard
 
 import com.pitzdev.gamification.dtos.gameStats.GameStatsDTO
 
-interface GameService {
+interface LeaderBoardService {
 
     fun newAttemptForUser(userId: Long, attemptId: Long, correct: Boolean) : GameStatsDTO
 
