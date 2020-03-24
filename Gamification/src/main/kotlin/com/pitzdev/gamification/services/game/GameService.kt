@@ -1,6 +1,7 @@
 package com.pitzdev.gamification.services.game
 
 import com.pitzdev.gamification.dtos.gameStats.GameStatsDTO
+import com.pitzdev.gamification.models.badgeCard.BadgeCard
 
 interface GameService {
 
