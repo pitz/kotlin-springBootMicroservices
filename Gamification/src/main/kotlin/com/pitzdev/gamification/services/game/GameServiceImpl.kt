@@ -19,7 +19,7 @@ class GameServiceImpl(private val scoreCardRepository: ScoreCardRepository,
 
     override fun newAttemptForUser(userId: Long, attemptId: Long, correct: Boolean) : GameStatsDTO {
         if (correct) {
-            val scoreCard = ScoreCard(userId, attemptId, 0)
+            val scoreCard = ScoreCard(userId, attemptId, 10)
             scoreCardRepository.save(scoreCard)
 
             println("User $userId scored $scoreCard.score points for attempt $attemptId")
@@ -33,7 +33,7 @@ class GameServiceImpl(private val scoreCardRepository: ScoreCardRepository,
 
     private fun processForBadges(userId: Long, attemptId: Long): List<BadgeCard> {
         val totalScore = scoreCardRepository.getTotalScoreForUser(userId)
-        val scoreCardList = scoreCardRepository.findByUserIdOrderByByDateCreatedDesc(userId).toMutableList()
+        val scoreCardList = scoreCardRepository.findByUserIdOrderByDateCreatedDesc(userId).toMutableList()
         val badgeCardList = badgeCardRepository.findByUserIdOrderByDateCreatedDesc(userId).toMutableList()
 
         val bronzeBadge = checkAndGiveBadgeBasedOnScore(badgeCardList, Badge.BRONZE_MULTIPLICATOR, totalScore, 100, userId)

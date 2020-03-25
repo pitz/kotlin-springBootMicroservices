@@ -1,11 +1,9 @@
 package com.pitzdev.gamification.services.leaderBoard
 
-import com.pitzdev.gamification.dtos.gameStats.GameStatsDTO
+import com.pitzdev.gamification.models.leaderBord.LeaderBoard
 
 interface LeaderBoardService {
 
-    fun newAttemptForUser(userId: Long, attemptId: Long, correct: Boolean) : GameStatsDTO
-
-    fun retrieveStatsForUser(userId: Long) : GameStatsDTO
+    public fun getCurrentLeaderBoard() : List<LeaderBoard>
 
 }
