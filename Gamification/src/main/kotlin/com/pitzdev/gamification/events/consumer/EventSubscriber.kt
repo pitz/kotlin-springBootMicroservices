@@ -1,5 +1,7 @@
 package com.pitzdev.gamification.events.consumer
 
+import com.google.gson.Gson
+import com.pitzdev.gamification.dtos.events.MultiplicationSolvedDTO
 import com.pitzdev.gamification.services.game.GameServiceImpl
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.ConnectionFactory
@@ -14,9 +16,9 @@ class EventSubscriber(private val gameServiceImpl: GameServiceImpl) : CommandLin
     private val EVENT_HOST = "localhost"
 
     override fun run(vararg args: String?) {
-        println("EventSubscriber.multiplicationSolvedListener() :: Starting listener.")
+        println("EventSubscriber -> multiplicationSolvedListener() :: Starting listener.")
         multiplicationSolvedListener()
-        println("EventSubscriber.multiplicationSolvedListener() :: Listener started.")
+        println("EventSubscriber -> multiplicationSolvedListener() :: Listener started.")
     }
 
     private fun multiplicationSolvedListener() {
@@ -25,8 +27,13 @@ class EventSubscriber(private val gameServiceImpl: GameServiceImpl) : CommandLin
 
     private fun callback() : (String) -> Unit {
         return { body: String ->
-            println(" JSON: $body")
-            gameServiceImpl.newAttemptForUser(1, 1, false) // fakeData
+            try {
+                val multiplicationSolved = Gson().fromJson(body, MultiplicationSolvedDTO::class.java)
+                if (multiplicationSolved != null) gameServiceImpl.newAttemptForUser(multiplicationSolved.userId, multiplicationSolved.multiplicationResultAttemptId, multiplicationSolved.correct)
+            } catch (e: Exception) {
+                println("EventSubscriber -> Erro ao consumir mensagem $body")
+            }
+
         }
     }
 
