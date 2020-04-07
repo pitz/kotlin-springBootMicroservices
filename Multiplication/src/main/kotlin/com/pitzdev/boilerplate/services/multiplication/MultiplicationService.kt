@@ -1,5 +1,6 @@
 package com.pitzdev.boilerplate.services.multiplication
 
+import com.pitzdev.boilerplate.dtos.multiplicationResultAttempt.GetAttemptResponseDTO
 import com.pitzdev.boilerplate.dtos.multiplicationResultAttempt.SaveAttemptDTO
 import com.pitzdev.boilerplate.models.multiplication.Multiplication
 import com.pitzdev.boilerplate.models.multiplicationResultAttempt.MultiplicationResultAttempt
@@ -41,12 +42,24 @@ class MultiplicationService(val multiplicationEventService: MultiplicationEventS
 
     private fun getMultipliacation(multiplicationId: Long) : Multiplication {
         val multiplication = multiplicationRepository.findById(multiplicationId)
-        if (multiplication.isEmpty) throw Exception("Multiplication not found.")
+        if (multiplication.isPresent) throw Exception("Multiplication not found.")
         return multiplication.get()
     }
 
     public fun getLastUserAttemptList(userAlias: String) : List<MultiplicationResultAttempt>? {
         return multiplicationResultAttemptRepository.findTop5ByUserAliasOrderByIdDesc(userAlias)
+    }
+
+    public fun getAttempt(id: Long) : GetAttemptResponseDTO? {
+        val attempt = multiplicationResultAttemptRepository.findById(id).get()
+        if (attempt == null) return null
+
+        return GetAttemptResponseDTO(attempt.user.id!!,
+                                     attempt.multiplication.id!!,
+                                     attempt.resultAttempt,
+                                     attempt.correct,
+                                     attempt.multiplication.factorA,
+                                     attempt.multiplication.factorB)
     }
 
 }
